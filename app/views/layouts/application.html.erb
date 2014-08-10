@@ -6,9 +6,6 @@
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
     <%= javascript_include_tag 'backstretch.min.js' %>
-<script>
-$.backstretch("<%= asset_path "yalebg.jpg" %>");
-</script>
 
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -19,4 +16,8 @@ $.backstretch("<%= asset_path "yalebg.jpg" %>");
       <%= yield %>
     </div>
   </body>
+  <script>
+$.backstretch("<%= asset_path "yalebg.jpg" %>");
+</script>
+
 </html>
