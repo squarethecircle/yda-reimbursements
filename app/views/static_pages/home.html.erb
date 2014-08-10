@@ -1,0 +1,13 @@
+<div class="center hero-unit" style="position:absolute;top:35%;height:10em; left:0; right:0; width:1000px; margin:auto">
+    <h1>Welcome to YDA Reimbursements!</h1>
+    <h2>
+      If you are a member of the Yale Debate Association, please sign in now.
+    </h2>
+
+    <%= link_to "Sign in with Facebook", '/auth/facebook', class: "btn btn-large btn-primary" %>
+</div>
+<%= javascript_include_tag 'backstretch.min.js' %>
+<script>
+$.backstretch("/assets/yalebg.jpg");
+</script>
+

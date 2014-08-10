@@ -1,0 +1,149 @@
+<header class="navbar navbar-fixed-top">
+      <div class="navbar-inner" style="background:rgba(255,255,255,0.4);">
+        <div class="container" style="width:95%; margin-left:15px;">
+          <%= link_to "YDA Reimbursements", '#', id: "logo" %>
+          <nav>
+            <ul class="nav pull-right">
+              <li><%= link_to "Sign out", '/logout' %></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+</header>
+
+<div class="hero-unit" style="position:absolute;top:15%; left:0; right:0; width:1000px; margin:auto; padding:30px">
+<p>Welcome, <%= @user.name %>!  Here you will find a list of reimbursements you have submitted, as well as their status.</p>
+<a class="btn btn-primary" style="margin-left:10px" href="#new" role="button" data-toggle="modal"><i class="icon-plus-sign icon-white"></i> New Reimbursement</a>
+<% if @reimbursements.empty? %>
+<br>You have not submitted any reimbursements yet!  You can submit a reimbursement by clicking the "New Reimbursement" link above.
+<% else %>
+<table class = "table table-bordered table-hover" style="width:900px;margin:auto;margin-top:10px">
+<thead>
+<tr>
+  <th><div style = "width:170px">Date Submitted</div></th>
+  <th><div style = "width:120px">Tournament</div></th>		
+  <th><div style = "width:170px">Type of Expense</div></th>
+  <th>Amount</th>
+  <th><div style = "width:170px">Comments</div></th>
+  <th>Receipt</th>
+  <th><div style= "width:100px">Status</div></th>
+
+
+</tr>
+</thead>
+<tbody>
+<% @reimbursements.each do |reimbursement| %>
+<tr>
+  <td><%= reimbursement.date_submitted.strftime("%Y-%m-%d %H:%M:%S")%></td>
+  <td><%=reimbursement.tournament%></td>		
+  <td><%=reimbursement.expense_type%></td>
+  <td>$<%=reimbursement.amount/100%>.<%=reimbursement.amount%100%></td>
+  <td><%=reimbursement.details%></td>
+  <td><%=link_to "View",reimbursement.receipt%></td>
+  <% if reimbursement.status == 0 %>
+  <td style = "color:orange">Pending</td>
+  <% elsif reimbursement.status == 1 %>
+  <td style = "color:green">Accepted</td>
+  <% elsif reimbursement.status == 2 %>
+  <td style = "color:red">Denied</td>
+  <%end%>
+</tr>
+<% end %>
+</tbody>
+</table>
+<% end %>
+</div>
+<div id="new" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3 id="myModalLabel">New Reimbursement</h3>
+  </div>
+  <div class="modal-body">
+<form class="form-horizontal" action="/dashboard/new" enctype="multipart/form-data" method="post">
+  <div class="control-group">
+    <label class="control-label" for="inputTournament">Tournament</label>
+    <div class="controls">
+      <input type="text" name="inputTournament" id="inputTournament" placeholder="Tournament">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputExpenseType">Type of Expense</label>
+    <div class="controls">
+      <select id="inputExpenseType" name="inputExpenseType">
+      	  <option>Reg Payment</option>
+		  <option>Gas</option>
+		  <option>Toll</option>
+		  <option>Parking</option>
+		  <option>Team Social Event</option>
+		  <option>Speeding/Parking Ticket</option>
+		  <option>Travel Subsidy</option>
+		  <option>Other</option>
+		</select>
+	</div>
+</div>
+	<div class="control-group" id="otherExpenseGroup" style="display:none">
+		<label class="control-label" for="inputOtherExpenseType">If other, please specify.</label>
+		<div class="controls">
+		<input type="text" name="inputOtherExpenseType" id="inputOtherExpenseType" placeholder="Type of Expense">
+		</div>
+	</div>
+	  <div class="control-group">
+    <label class="control-label" for="inputDetails">Comments</label>
+    <div class="controls">
+<textarea id="inputDetails" name="inputDetails" class="form-control" rows="3"></textarea>    
+</div>
+  </div>
+  <div class="control-group" id="inputAmountGroup">
+    <label class="control-label" for="inputAmount">Amount</label>
+    <div class="controls">
+      <input type="text" id="inputAmount" name="inputAmount" placeholder="Amount">
+      <span id="amountHelp" class="help-inline" style="display:none">Please enter a valid dollar value.</span>
+
+    </div>
+  </div>
+
+<div class="control-group" id="receiptUploadGroup">
+    <label class="control-label" for="receiptUpload">Upload Receipt</label>
+    <div class="controls">
+    <input id="uglyfile" name="uglyfile" type="file" style="display:none" accept="image/*" capture>
+<button class="btn btn-primary" onclick="event.preventDefault();$('input[id=uglyfile]').click();"><i class="icon-plus-sign icon-white"></i> Select photo </button> <div style="display:inline" id="filename"></div>
+    </div>
+  </div>
+  
+  </div>
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>"/>
+  <div class="modal-footer">
+    <input type="submit" class="btn btn-primary">
+  </div>
+  </form>
+
+</div>
+
+
+<%= javascript_include_tag 'backstretch.min.js' %>
+<script>
+$.backstretch("/assets/yalebg.jpg");
+$("#inputExpenseType").change(function() {
+    if ($("#inputExpenseType option:selected").text() == "Other") {
+        $("#otherExpenseGroup").show("slow");
+    } else {
+        $("#otherExpenseGroup").hide("slow");
+    }
+});
+$("#inputAmount").change(function() {
+    var amount = $("#inputAmount").val();
+	var re=/^\$?(([1-9]\d{0,2}(,\d{3})*)|(([1-9]\d*)?\d))(\.\d\d)?$/;
+    if (!re.test(amount)) {
+        $("#inputAmountGroup").addClass("error");
+        $("#amountHelp").show();
+    }
+    else {$("#inputAmountGroup").removeClass("error");
+		$("#amountHelp").hide();}
+});
+$('input[id=uglyfile]').change(function() {
+$('#filename').text($(this).val());
+});
+
+
+</script>
+

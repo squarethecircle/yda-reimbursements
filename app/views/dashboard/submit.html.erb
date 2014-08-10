@@ -1,0 +1,19 @@
+<header class="navbar navbar-fixed-top">
+      <div class="navbar-inner" style="background:rgba(255,255,255,0.4);">
+        <div class="container" style="width:95%; margin-left:15px;">
+          <%= link_to "YDA Reimbursements", '#', id: "logo" %>
+          <nav>
+            <ul class="nav pull-right">
+              <li><%= link_to "Sign out", '/logout' %></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+</header>
+
+<div class="hero-unit" style="position:absolute;top:15%; left:0; right:0; width:1000px; margin:auto; padding:30px">
+</div>
+<%= javascript_include_tag 'backstretch.min.js' %>
+<script>
+$.backstretch("/assets/yalebg.jpg");
+</script>
