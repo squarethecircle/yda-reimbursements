@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140809201654) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "reimbursements", force: true do |t|
     t.integer  "user_id"
     t.datetime "date_submitted"
@@ -26,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140809201654) do
     t.datetime "updated_at"
   end
 
-  add_index "reimbursements", ["user_id", "date_submitted"], name: "index_reimbursements_on_user_id_and_date_submitted"
+  add_index "reimbursements", ["user_id", "date_submitted"], name: "index_reimbursements_on_user_id_and_date_submitted", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "provider"
