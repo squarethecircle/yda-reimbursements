@@ -8,6 +8,9 @@ class DashboardController < ApplicationController
   end
 
   def create
+  	if params[:uglyfile]==nil
+  		redirect_to '/dashboard'
+  	end
   	@reimbursement = Reimbursement.new
   	@reimbursement.user_id=session[:user_id]
   	@reimbursement.tournament=params[:inputTournament]
