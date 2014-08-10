@@ -122,7 +122,6 @@
 
 <%= javascript_include_tag 'backstretch.min.js' %>
 <script>
-$.backstretch("/assets/yalebg.jpg");
 $("#inputExpenseType").change(function() {
     if ($("#inputExpenseType option:selected").text() == "Other") {
         $("#otherExpenseGroup").show("slow");
