@@ -35,6 +35,12 @@ class DashboardController < ApplicationController
   	@reimbursement.date_submitted=Time.new
   	dollars=/\$?([0-9]+)\.?/.match(params[:inputAmount])[1].to_i
   	cents=/\.([0-9]+)/.match(params[:inputAmount])[1].to_i
+  	if dollars==nil
+  		dollars=0
+  	end
+  	if cents==nil
+  		cents=0
+  	end
   	@reimbursement.amount=dollars*100+cents
   	@reimbursement.save
   	redirect_to '/dashboard'
