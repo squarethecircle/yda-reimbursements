@@ -37,7 +37,7 @@
   <td><%= reimbursement.date_submitted.strftime("%Y-%m-%d %H:%M:%S")%></td>
   <td><%=reimbursement.tournament%></td>		
   <td><%=reimbursement.expense_type%></td>
-  <td>$<%=reimbursement.amount/100%>.<%=reimbursement.amount%100%></td>
+  <td>$<%=reimbursement.amount/100%>.<%="%02d"%(reimbursement.amount%100)%></td>
   <td><%=reimbursement.details%></td>
   <td><%=link_to "View",reimbursement.receipt%></td>
   <% if reimbursement.status == 0 %>
@@ -59,7 +59,7 @@
     <h3 id="myModalLabel">New Reimbursement</h3>
   </div>
   <div class="modal-body">
-<form class="form-horizontal" action="/dashboard/new" enctype="multipart/form-data" method="post">
+<form class="form-horizontal" action="/dashboard/new" enctype="multipart/form-data" method="post" onsubmit="return submitcheck(); return false;">
   <div class="control-group">
     <label class="control-label" for="inputTournament">Tournament</label>
     <div class="controls">
@@ -74,7 +74,7 @@
 		  <option>Gas</option>
 		  <option>Toll</option>
 		  <option>Parking</option>
-		  <option>Team Social Event</option>
+		  <option>Team Social Event</option>x
 		  <option>Speeding/Parking Ticket</option>
 		  <option>Travel Subsidy</option>
 		  <option>Other</option>
@@ -121,6 +121,11 @@
 
 
 <script>
+var submitcheck=function (){return $('input[id=uglyfile]').val()!="" && checkAmount($('#inputAmount').val());};
+function checkAmount(str){
+	var re=/^\$?(([1-9]\d{0,2}(,\d{3})*)|(([1-9]\d*)?\d))(\.\d\d)?$/;
+	return re.test(str)
+}
 $("#inputExpenseType").change(function() {
     if ($("#inputExpenseType option:selected").text() == "Other") {
         $("#otherExpenseGroup").show("slow");
@@ -129,9 +134,8 @@ $("#inputExpenseType").change(function() {
     }
 });
 $("#inputAmount").change(function() {
-    var amount = $("#inputAmount").val();
-	var re=/^\$?(([1-9]\d{0,2}(,\d{3})*)|(([1-9]\d*)?\d))(\.\d\d)?$/;
-    if (!re.test(amount)) {
+   	var amount = $("#inputAmount").val();
+    if (!checkAmount(amount)) {
         $("#inputAmountGroup").addClass("error");
         $("#amountHelp").show();
     }

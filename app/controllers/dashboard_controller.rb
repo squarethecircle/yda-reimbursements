@@ -8,45 +8,46 @@ class DashboardController < ApplicationController
   end
 
   def create
-  	if params[:uglyfile]==nil
-  		redirect_to '/dashboard'
-  	end
-  	@reimbursement = Reimbursement.new
-  	@reimbursement.user_id=session[:user_id]
-  	@reimbursement.tournament=params[:inputTournament]
-  	expense_type=params[:inputExpenseType]
-  	if (expense_type=="Other")
-  		expense_type=params[:inputOtherExpenseType]
-  	end
-  	@reimbursement.expense_type=expense_type
-  	@reimbursement.details=params[:inputDetails]
-  	@reimbursement.status=0
-  	ext=""
-  	if params[:uglyfile].headers.include? "Content-Type: image/jpeg"
-  		ext=".jpg"
-  	elsif params[:uglyfile].headers.include? "Content-Type: image/jpeg"
-     	ext=".gif"
-  	elsif params[:uglyfile].headers.include? "Content-Type: image/pjpeg"
-  		ext=".jpg"
-  	elsif params[:uglyfile].headers.include? "Content-Type: image/png"
-  		ext=".png"
+  	if params[:uglyfile]!=nil
+	  	@reimbursement = Reimbursement.new
+	  	@reimbursement.user_id=session[:user_id]
+	  	@reimbursement.tournament=params[:inputTournament]
+	  	expense_type=params[:inputExpenseType]
+	  	if (expense_type=="Other")
+	  		expense_type=params[:inputOtherExpenseType]
+	  	end
+	  	@reimbursement.expense_type=expense_type
+	  	@reimbursement.details=params[:inputDetails]
+	  	@reimbursement.status=0
+	  	ext=""
+	  	if params[:uglyfile].headers.include? "Content-Type: image/jpeg"
+	  		ext=".jpg"
+	  	elsif params[:uglyfile].headers.include? "Content-Type: image/jpeg"
+	     	ext=".gif"
+	  	elsif params[:uglyfile].headers.include? "Content-Type: image/pjpeg"
+	  		ext=".jpg"
+	  	elsif params[:uglyfile].headers.include? "Content-Type: image/png"
+	  		ext=".png"
+	  	end	
+	  	newname=SecureRandom.uuid+ext
+	  	s3 = AWS::S3.new
+	  	img=s3.buckets['ydareimbursements'].objects[newname].write(params[:uglyfile].tempfile.read)
+	  	@reimbursement.receipt=img.public_url.to_s
+	  	@reimbursement.date_submitted=Time.new
+	  	dollars=0
+	  	cents=0
+	  	dollarsmatch=/\$?([0-9]+)\.?/.match(params[:inputAmount])
+	  	if dollarsmatch != nil
+	  		dollars = dollarsmatch[1].to_i
+	  	end
+	  	centsmatch=/\.([0-9]+)/.match(params[:inputAmount])
+	  	if centsmatch != nil
+	  		cents = centsmatch[1].to_i
+	  	end
+	  	@reimbursement.amount=dollars*100+cents
+	  	@reimbursement.save
   	end	
-  	newname=SecureRandom.uuid+ext
-  	s3 = AWS::S3.new
-  	img=s3.buckets['ydareimbursements'].objects[newname].write(params[:uglyfile].tempfile.read)
-  	@reimbursement.receipt=img.public_url.to_s
-  	@reimbursement.date_submitted=Time.new
-  	dollars=/\$?([0-9]+)\.?/.match(params[:inputAmount])[1].to_i
-  	cents=/\.([0-9]+)/.match(params[:inputAmount])[1].to_i
-  	if dollars==nil
-  		dollars=0
-  	end
-  	if cents==nil
-  		cents=0
-  	end
-  	@reimbursement.amount=dollars*100+cents
-  	@reimbursement.save
-  	redirect_to '/dashboard'
+  redirect_to '/dashboard'
   end
 
 
