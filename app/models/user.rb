@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-	has_many :reimbursements
+	has_many :reimbursements, :dependent => :destroy
 	def self.omniauth(auth)
 	    where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
 	      user.provider = auth.provider

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'logout', to: 'sessions#destroy'
   root :to => 'static_pages#home'
   post 'dashboard/new', to: 'dashboard#create'
+  post 'dashboard/delete', to: 'dashboard#delete'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

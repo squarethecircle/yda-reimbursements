@@ -17,5 +17,10 @@ class DashboardController < ApplicationController
   	redirect_to '/dashboard'
   end
 
+  def delete
+  	Reimbursement.user_delete(session[:user_id],params[:to_delete_id].to_i)
+  	redirect_to '/dashboard'
+  end
+
 
 end
