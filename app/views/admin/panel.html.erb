@@ -36,6 +36,7 @@
 </tr>
 </thead>
 <tbody>
+<% if @reimbursements.empty? %>
 <% @reimbursements.each do |reimbursement| %>
 <tr style="height:50px" id="<%=reimbursement.UUID%>">
   <td class="reimbursement_id"> <%=reimbursement.UUID%></td>
@@ -58,6 +59,7 @@
     </button>
   </td>
 </tr>
+<% end %>
 <% end %>
 </tbody>
 </table>
