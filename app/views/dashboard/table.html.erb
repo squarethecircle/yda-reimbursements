@@ -49,7 +49,7 @@
   <td style = "color:red">Denied</td>
   <%end%>
   <td>
-  	<% if reimbursement.status != 1 %>
+  	<% if reimbursement.status == 0 %>
   	<button class="btn btn-danger" id="deleteButton<%= index %>" onclick="deleteReimbursement(<%= index %>);"><i class="icon-trash icon-white"></i> 
   	</button> <% end %>
   </td>
