@@ -34,7 +34,7 @@
 </tr>
 </thead>
 <tbody>
-<% @reimbursements do |reimbursement| %>
+<% @reimbursements.each do |reimbursement| %>
 <tr>
   <td class="reimbursement_id"> <%=reimbursement.UUID%></td>
   <td><%= reimbursement.date_submitted.strftime("%Y-%m-%d %H:%M:%S")%></td>
