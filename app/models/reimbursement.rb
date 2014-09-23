@@ -67,7 +67,7 @@ class Reimbursement < ActiveRecord::Base
 	end
 	def self.user_delete(user_id,reimbursement_id)
 		to_delete=Reimbursement.find_by(UUID: reimbursement_id)
-		if to_delete.status == 0 and to_delete.user_id == user_id
+		if to_delete.status == 0 && to_delete.user_id == user_id
 			to_delete.destroy
 		end
 	end
