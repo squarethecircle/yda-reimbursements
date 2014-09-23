@@ -36,10 +36,35 @@ class Reimbursement < ActiveRecord::Base
 		  		cents = centsmatch[1].to_i
 		  	end
 		  	reimbursement.amount=dollars*100+cents
+		  	reimbursement.UUID=SecureRandom.uuid
 		  	reimbursement.save
 		end
 	end
 
+	def self.update(reimbursement_id,type, value)
+		updating = Reimbursement.find_by(UUID: reimbursement_id)
+		if updating == nil
+			return
+		end
+		if type == 1
+			dollars=0
+		  	cents=0
+		  	dollarsmatch=/\$?([0-9]+)\.?/.match(value)
+		  	if dollarsmatch != nil
+		  		dollars = dollarsmatch[1].to_i
+		  	end
+		  	centsmatch=/\.([0-9]+)/.match(value)
+		  	if centsmatch != nil
+		  		cents = centsmatch[1].to_i
+		  	end
+		  	updating.amount=dollars*100+cents
+		elsif type == 2
+			updating.details=value
+		elsif type == 3
+			updating.status=value.to_i
+		end
+		updating.save
+	end
 	def self.user_delete(user_id,reimbursement_index)
 		to_delete=User.find(user_id).reimbursements[reimbursement_index]
 		if to_delete.status != 1
@@ -48,7 +73,9 @@ class Reimbursement < ActiveRecord::Base
 	end
 
 	def self.admin_delete(reimbursement_id)
-		Reimbursement.find(reimbursement_id).destroy
+		if Reimbursement.find_by(UUID: reimbursement_id) != nil
+			Reimbursement.find_by(UUID: reimbursement_id).destroy
+		end
 	end
 
 

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'admin/panel'
+
   get 'dashboard', to: 'dashboard#table'
   get 'static_pages/home'
   get 'auth/:provider/callback', to: 'sessions#create'
@@ -6,6 +8,8 @@ Rails.application.routes.draw do
   root :to => 'static_pages#home'
   post 'dashboard/new', to: 'dashboard#create'
   post 'dashboard/delete', to: 'dashboard#delete'
+  post 'admin/delete', to: 'admin#delete'
+  post 'admin/update', to: 'admin#update'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

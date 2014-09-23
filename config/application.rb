@@ -20,6 +20,8 @@ module YdaReimbursements
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 	config.serve_static_assets = true
-	config.assets.precompile  += %w(*.png *.jpg *.jpeg *.gif *.js)
+	config.assets.precompile  += %w(*.swf *.png *.jpg *.jpeg *.gif *.js 
+jquery.dataTables.min.css 
+dataTables.tableTools.css) 
   end
 end

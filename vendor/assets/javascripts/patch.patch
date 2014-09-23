@@ -1,0 +1,25 @@
+diff -r 8b4b0ffa7f48 code/flowserver/staticfiles/js/jquery.jeditable.js
+--- a/code/flowserver/staticfiles/js/jquery.jeditable.js	Tue Aug 02 21:12:25 2011 +0200
++++ b/code/flowserver/staticfiles/js/jquery.jeditable.js	Tue Aug 02 22:16:56 2011 +0200
+@@ -277,7 +277,11 @@
+                     input.blur(function(e) {
+                         /* Prevent double submit if submit was clicked. */
+                         t = setTimeout(function() {
+-                            form.submit();
++                            // only submit the form if the user has NOT clicked on the cancel button
++                            // which also triggers the blur event...
++                            if (!form.canceling) {
++                                form.submit();
++                            }
+                         }, 200);
+                     });
+                 } else if ($.isFunction(settings.onblur)) {
+@@ -438,6 +442,8 @@
+                         $(this).append(cancel);
+ 
+                         $(cancel).click(function(event) {
++                            // set variable so that onblur=submit mode knows that it should NOT submit
++                            form.canceling = true;
+                             if ($.isFunction($.editable.types[settings.type].reset)) {
+                                 var reset = $.editable.types[settings.type].reset;                                                                
+                             } else {
