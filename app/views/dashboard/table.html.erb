@@ -132,7 +132,7 @@
 var submitcheck=function (){return $('input[id=uglyfile]').val()!="" && checkAmount($('#inputAmount').val());};
 function checkAmount(str){
 	var re=/^\$?(([1-9]\d{0,2}(,\d{3})*)|(([1-9]\d*)?\d))(\.\d\d)?$/;
-	return re.test(str)
+	return re.test(str);
 }
 $("#inputExpenseType").change(function() {
     if ($("#inputExpenseType option:selected").text() == "Other") {

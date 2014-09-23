@@ -53,6 +53,9 @@
   <td style = "color:green" class="status-column">Accepted</td>
   <% elsif reimbursement.status == 2 %>
   <td style = "color:red" class="status-column">Denied</td>
+  <% elsif reimbursement.status == 3 %>
+  <td style = "color:green" class="status-column">Paid</td>
+
   <%end%>
   <td class="delete-column">
     <button class="btn btn-danger" onclick="deleteReimbursement('<%=reimbursement.UUID%>');"><i class="icon-trash icon-white"></i>
@@ -75,7 +78,7 @@ $(document).ready(function() {
       $(this).parent().parent().css('color','orange');
      }
 
-      if (this.value == 'Accepted'){
+      if (this.value == 'Accepted' || this.value == Paid){
       $(this).parent().parent().css('color','green');
       }
       $(this).parent().submit();
@@ -124,9 +127,10 @@ $(document).ready(function() {
     if (sValue == 'Pending')  update(update_id,3, 0);
     else if (sValue == 'Accepted') update(update_id,3, 1);
     else if (sValue == 'Denied') update(update_id,3, 2);
+    else if (sValue == 'Paid') update(update_id, 3, 3);
 
     return sValue;
-  }, { "onblur": 'submit', "style": "display:inline;text-align:center", "cssclass":"edit-select","height": "20", "data":"{'Pending':'Pending','Denied':'Denied','Accepted':'Accepted'}", "type":"select"}); 
+  }, { "onblur": 'submit', "style": "display:inline;text-align:center", "cssclass":"edit-select","height": "20", "data":"{'Pending':'Pending','Denied':'Denied','Accepted':'Accepted', 'Paid':'Paid'}", "type":"select"}); 
 
 
 
