@@ -52,7 +52,7 @@
   <%end%>
   <td>
   	<% if reimbursement.status == 0 %>
-  	<button class="btn btn-danger" id="deleteButton<%=reimbursement.UUID%>" onclick="deleteReimbursement(<%=reimbursement.UUID%>);"><i class="icon-trash icon-white"></i> 
+  	<button class="btn btn-danger" id="deleteButton<%=reimbursement.UUID%>" onclick="deleteReimbursement('<%=reimbursement.UUID%>');"><i class="icon-trash icon-white"></i> 
   	</button> <% end %>
   </td>
 </tr>
