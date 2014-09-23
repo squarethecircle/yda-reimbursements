@@ -1,7 +1,7 @@
 class AdminController < ApplicationController
   def panel
   	userid=session[:user_id]
-  	if userid == nil
+  	if User.find(userid).uid != "1384912159"
   		raise ActionController::RoutingError.new('Not Found')
   	end
 	@user=User.find(userid)
