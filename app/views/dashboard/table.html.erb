@@ -6,7 +6,7 @@
             <ul class="nav pull-right">
               <%if @user.uid == ENV['YDA_TREASURER']%>
               <li><%= link_to "Admin", '/admin/panel'%></li>
-              <%end>
+              <%end%>
               <li><%= link_to "Sign out", '/logout' %></li>
             </ul>
           </nav>
