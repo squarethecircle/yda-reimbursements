@@ -90,12 +90,15 @@ p {
 }
 .expense-column {
   width:100px;
+  word-wrap:break-word;
+
 }
 .amount-column {
   width:70px;
 }
 .comments-column {
   width:200px;
+  word-wrap:break-word;
 
 }
 .receipt-column {
