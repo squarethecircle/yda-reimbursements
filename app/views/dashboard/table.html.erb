@@ -20,6 +20,7 @@
 <table class = "table table-bordered table-hover" style="width:950px;margin:auto;margin-top:10px;">
 <thead>
 <tr>
+  <th class = "reimbursement_id">Reimbursement ID</th>
   <th><div style = "width:170px">Date Submitted</div></th>
   <th><div style = "width:120px">Tournament</div></th>		
   <th><div style = "width:170px">Type of Expense</div></th>
@@ -33,8 +34,9 @@
 </tr>
 </thead>
 <tbody>
-<% @reimbursements.each_with_index do |reimbursement, index| %>
+<% @reimbursements do |reimbursement| %>
 <tr>
+  <td class="reimbursement_id"> <%=reimbursement.UUID%></td>
   <td><%= reimbursement.date_submitted.strftime("%Y-%m-%d %H:%M:%S")%></td>
   <td><%=reimbursement.tournament%></td>		
   <td><%=reimbursement.expense_type%></td>
@@ -50,7 +52,7 @@
   <%end%>
   <td>
   	<% if reimbursement.status == 0 %>
-  	<button class="btn btn-danger" id="deleteButton<%= index %>" onclick="deleteReimbursement(<%= index %>);"><i class="icon-trash icon-white"></i> 
+  	<button class="btn btn-danger" id="deleteButton<%=reimbursement.UUID%>" onclick="deleteReimbursement(<%=reimbursement.UUID%>);"><i class="icon-trash icon-white"></i> 
   	</button> <% end %>
   </td>
 </tr>
