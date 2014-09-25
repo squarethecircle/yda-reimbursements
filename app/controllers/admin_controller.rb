@@ -1,4 +1,6 @@
 class AdminController < ApplicationController
+  http_basic_authenticate_with :name => ENV['YDA_USERNAME'], :password => ENV['YDA_PASSWORD']
+
   def panel
   	userid=session[:user_id]
   	if User.find(userid).uid != ENV['YDA_TREASURER']
