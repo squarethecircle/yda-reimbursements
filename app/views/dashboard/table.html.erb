@@ -52,6 +52,8 @@
   <td style = "color:green">Accepted</td>
   <% elsif reimbursement.status == 2 %>
   <td style = "color:red">Denied</td>
+  <% elsif reimbursement.status == 3 %>
+  <td style = "color:green">Paid</td>
   <%end%>
   <td>
   	<% if reimbursement.status == 0 %>
