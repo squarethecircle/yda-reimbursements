@@ -70,7 +70,7 @@
 </div>
 <script>
 var oTable;
-$(window).load(setTimeout(function() {
+$(window).load(function() {
   oTable=$('table').dataTable(
     {
               "sDom": 'T<"clear">lfrtip',
@@ -155,7 +155,39 @@ $(window).load(setTimeout(function() {
 
     return sValue;
   }, { "onblur": 'submit', "style": "display:inline;text-align:center", "cssclass":"edit-select","height": "20", "data":"{'Pending':'Pending','Denied':'Denied','Accepted':'Accepted', 'Paid':'Paid'}", "type":"select"}); 
-       $('td.status-column').editable( function( sValue ) {
+
+  $('table tbody').on('click','tr',function()
+  {
+
+$('td.amount-column').editable( function( sValue ) {
+    /* Get the position of the current data from the node */
+    var aPos = oTable.fnGetPosition( this );
+    
+    /* Get the data array for this row */
+    var aData = oTable.fnGetData( aPos[0] );
+    
+    /* Update the data array and return the value */
+    aData[ aPos[1] ] = sValue;
+    update_id=aData[0];
+
+    update(update_id, 1, sValue);
+
+    return sValue;
+  }, { "onblur": 'ignore', "style": "display:inline;text-align:center", "height": "20"} ); 
+    $('td.comments-column').editable( function( sValue ) {
+    /* Get the position of the current data from the node */
+    var aPos = oTable.fnGetPosition( this );
+    /* Get the data array for this row */
+    var aData = oTable.fnGetData( aPos[0] );
+    
+    /* Update the data array and return the value */
+    aData[ aPos[1] ] = sValue;
+    update_id=aData[0];
+
+    update(update_id, 2, sValue);
+    return sValue;
+  }, { "onblur": 'submit', "type":"textarea","style": "display:inline;text-align:center", "height": "20", "width":"200","submit":"OK","cancel":"Cancel"} ); 
+    $('td.status-column').editable( function( sValue ) {
     /* Get the position of the current data from the node */
     var aPos = oTable.fnGetPosition( this );
     
@@ -173,13 +205,10 @@ $(window).load(setTimeout(function() {
 
     return sValue;
   }, { "onblur": 'submit', "style": "display:inline;text-align:center", "cssclass":"edit-select","height": "20", "data":"{'Pending':'Pending','Denied':'Denied','Accepted':'Accepted', 'Paid':'Paid'}", "type":"select"}); 
+  });
 
 
-
-
-
-
-  } , 10000));
+  })  ;
 
 function update(id, type, value){
 $.post("/admin/update",{"to_update_id":id,"type":type,"value":value});
