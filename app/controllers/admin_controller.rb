@@ -3,7 +3,7 @@ class AdminController < ApplicationController
 
   def panel
   	userid=session[:user_id]
-  	if User.find(userid).uid != ENV['YDA_TREASURER']
+  	if User.find(userid).uid != ENV['YDA_TREASURER'] && User.find(userid).uid != ENV['YDA_TREASURER2']
   		raise ActionController::RoutingError.new('Not Found')
   	end
 	@user=User.find(userid)
@@ -13,7 +13,7 @@ class AdminController < ApplicationController
 
   def delete
   	userid=session[:user_id]
-  	if User.find(userid).uid != ENV['YDA_TREASURER']
+    if User.find(userid).uid != ENV['YDA_TREASURER'] && User.find(userid).uid != ENV['YDA_TREASURER2']
   		raise ActionController::RoutingError.new('Not Authorized')
   	end
     Reimbursement.admin_delete(params[:to_delete_id])
@@ -22,7 +22,7 @@ class AdminController < ApplicationController
 
   def update
     userid=session[:user_id]
-    if User.find(userid).uid != ENV['YDA_TREASURER']
+    if User.find(userid).uid != ENV['YDA_TREASURER'] && User.find(userid).uid != ENV['YDA_TREASURER2']
       raise ActionController::RoutingError.new('Not Authorized')
     end
     Reimbursement.update(params[:to_update_id],params[:type].to_i,params[:value])
