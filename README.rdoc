@@ -1,5 +1,6 @@
 == YDA Reimbursements
 
-Reimbursements Manager for the Yale Debate Association
+*Reimbursements Manager for the Yale Debate Association
+
 Built with DataTables
 
