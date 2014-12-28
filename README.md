@@ -1,4 +1,4 @@
-== YDA Reimbursements
+## YDA Reimbursements
 
 _Reimbursements Manager for the Yale Debate Association_
 
