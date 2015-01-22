@@ -4,7 +4,7 @@
           <%= link_to "YDA Reimbursements", '#', id: "logo" %>
           <nav>
             <ul class="nav pull-right">
-              <%if @user.uid == ENV['YDA_TREASURER']%>
+              <%if @user.uid == ENV['YDA_TREASURER'] || @user.uid == ENV['YDA_TREASURER2']%>
               <li><%= link_to "Admin", '/admin/panel'%></li>
               <%end%>
               <li><%= link_to "Sign out", '/logout' %></li>
